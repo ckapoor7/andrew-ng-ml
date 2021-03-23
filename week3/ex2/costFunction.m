@@ -12,5 +12,6 @@ J = 0;
 grad = zeros(size(theta));
 hypothesis = sigmoid(X*theta);
 J = (1/m)*sum(-y'*log(hypothesis)-(1-y)'*log(1-hypothesis)); %Use the formula derived
+grad = (1/m)*(hypothesis-y)'*X;
 
 end
