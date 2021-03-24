@@ -10,26 +10,18 @@ num_labels = size(Theta2, 1);
 % You need to return the following variables correctly 
 p = zeros(size(X, 1), 1);
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: Complete the following code to make predictions using
-%               your learned neural network. You should set p to a 
-%               vector containing labels between 1 to num_labels.
-%
-% Hint: The max function might come in useful. In particular, the max
-%       function can also return the index of the max element, for more
-%       information see 'help max'. If your examples are in rows, then, you
-%       can use max(A, [], 2) to obtain the max for each row.
-%
+%Forward propagation for layer 1
+a1 = [ones(m,1), X];
+z2 = a1 * Theta1';
 
+%Forward propagation for layer 2
+a2 = sigmoid(z2);
+a2 = [ones(m,1), a2];
+z3 = a2 * Theta2';
 
-
-
-
-
-
-
-
-% =========================================================================
+res = sigmoid(z3);
+[max_prob class_label] = max(res, [], 2); %Return a column vector containing the max value of each row
+p = class_label; 
 
 
 end
