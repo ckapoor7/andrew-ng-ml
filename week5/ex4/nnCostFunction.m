@@ -82,6 +82,36 @@ reg_term = (lambda/(2*m)) *(sum(sum(new_theta1.^2)) + sum(sum(new_theta2.^2)));
 
 J += reg_term;
 
+%Back propagation
+for t = 1:m
+
+   %Feed forward pass
+	  a1 = X(t ,:); %Initialize a1 
+          z2 = Theta1 * a1';
+          a2 = sigmoid(z2);
+          a2 = [1 ; a2]; %Add bias layer
+          z3 = Theta2 * a2;
+          a3 = sigmoid(z3);
+
+   %Calculate delta values
+	  delta_3 = a3 - y_vec( :,t);
+
+   %Step 3
+   z2 = [1; z2]; %Add bias layer
+   delta_2 = (Theta2' * delta_3).*sigmoidGradient(z2); %Compute delta 2
+
+   %Accumulate gradient errors
+   delta_2 = delta_2(2:end); %Skip the bias vector
+   Theta2_grad += delta_3 * a2';
+   Theta1_grad += delta_2 * a1;
+
+endfor;
+
+%Obtain unregularized gradient
+Theta2_grad *= (1/m);
+Theta1_grad *= (1/m);
+
+
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
