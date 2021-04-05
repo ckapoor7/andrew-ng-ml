@@ -25,19 +25,11 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 % Setup some useful variables
 m = size(X, 1);
          
-% You need to return the following variables correctly 
+
 J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: You should complete the code by working through the
-%               following parts.
-%
-% Part 1: Feedforward the neural network and return the cost in the
-%         variable J. After implementing Part 1, you can verify that your
-%         cost function computation is correct by verifying the cost
-%         computed in ex4.m
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -80,6 +72,15 @@ endfor
   
 %Compute the cost function
 J = (-1/m) * sum(sum(y_vec.*log(hypothesis) + (1-y_vec).*log(1-hypothesis)));
+
+%Regularize the cost function
+new_theta1 = Theta1( :,2:size(Theta1, 2)); %Exclude the bias values
+new_theta2 = Theta2( :,2:size(Theta2, 2));
+
+%Compute the regularization term
+reg_term = (lambda/(2*m)) *(sum(sum(new_theta1.^2)) + sum(sum(new_theta2.^2)));
+
+J += reg_term;
 
 
 % Unroll gradients
